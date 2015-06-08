@@ -4,10 +4,11 @@ DIRNAME=`dirname $0`
 DIR=`cd $DIRNAME && pwd`
 OPENSSL_CFG=$DIR/openssl.cnf
 
-DROPDIR=`cd $DIRNAME/../.. && pwd`
+DROPDIR=.
 
 KEY=$DROPDIR/consul.key
 CERT=$DROPDIR/consul.pem
+SECRET=$DROPDIR/consul.secret
 
 if [ ! -f "$KEY" ] || [ ! -f "$CERT" ]; then
  echo "Generating SSL key"
@@ -18,5 +19,9 @@ if [ ! -f "$KEY" ] || [ ! -f "$CERT" ]; then
      -out  consul.pem \
      -keyout consul.key \
      -days 3650 \
-     -subj '/CN=consul.nubis.allizom.org'
+     -subj '/CN=www.wiki.prod.nubis.allizom.org'
+fi
+
+if [ ! -f "$SECRET" ]; then
+  consul keygen > $SECRET
 fi
